@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>English ↔ فارسی: I / I'm / You / You are</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;600&display=swap">
+<style>
+:root{--bg:#f6f4ef;--fg:#1f2430;--card:#fff;--back:#1f6f5c;--backfg:#fff;--muted:#6b7280;--btn:#e7e3d9;--acc:#c2410c;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#15181f;--fg:#eceef3;--card:#222733;--back:#2f8f77;--backfg:#fff;--muted:#9aa3b2;--btn:#2c3240;--acc:#fb923c}}
+:root[data-theme="dark"]{--bg:#15181f;--fg:#eceef3;--card:#222733;--back:#2f8f77;--backfg:#fff;--muted:#9aa3b2;--btn:#2c3240;--acc:#fb923c}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:Georgia,'Times New Roman',serif;min-height:100vh;display:flex;flex-direction:column;align-items:center;padding:20px 16px}
+h1{font-size:1.25rem;margin:0 0 4px}
+.sub{color:var(--muted);font-family:system-ui,sans-serif;font-size:.85rem;margin-bottom:14px}
+.tabs{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-bottom:14px}
+.tabs button.on{background:var(--acc);color:#fff}
+.bar{width:100%;max-width:560px;height:6px;background:var(--btn);border-radius:3px;overflow:hidden;margin-bottom:8px}
+.bar i{display:block;height:100%;background:var(--acc);width:0;transition:width .3s}
+.count{font-family:system-ui,sans-serif;color:var(--muted);font-size:.85rem;margin-bottom:14px}
+.scene{width:100%;max-width:560px;height:260px;perspective:1000px;cursor:pointer}
+.card{position:relative;width:100%;height:100%;transform-style:preserve-3d;transition:transform .5s}
+.card.flip{transform:rotateY(180deg)}
+.face{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;border-radius:18px;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px;text-align:center;font-size:2rem;line-height:1.5;box-shadow:0 6px 20px rgba(0,0,0,.12)}
+.front{background:var(--card)}
+.back{background:var(--back);color:var(--backfg);transform:rotateY(180deg)}
+.tag{font-family:system-ui,sans-serif;font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;opacity:.6;margin-bottom:12px}
+.fa{font-family:'Vazirmatn',Tahoma,'Segoe UI',Arial,sans-serif}
+.hint{font-family:system-ui,sans-serif;color:var(--muted);font-size:.8rem;margin:14px 0}
+.row{display:flex;gap:10px;flex-wrap:wrap;justify-content:center}
+button{font:inherit;font-family:system-ui,sans-serif;background:var(--btn);color:var(--fg);border:0;border-radius:10px;padding:10px 16px;cursor:pointer;font-size:.95rem}
+button.p{background:var(--acc);color:#fff}
+button:active{transform:scale(.97)}
+</style>
+</head>
+<body>
+<h1>English ↔ فارسی</h1>
+<div class="sub">Tap the card to flip · ← → keys to navigate</div>
+<div class="tabs" id="tb"></div>
+<div class="bar"><i id="pb"></i></div>
+<div class="count" id="ct"></div>
+<div class="scene" id="sc"><div class="card" id="cd">
+<div class="face front"><div class="tag" id="t1">English</div><div id="fa"></div></div>
+<div class="face back"><div class="tag" id="t2">فارسی</div><div id="fb"></div></div>
+</div></div>
+<div class="hint">Flip to check your answer</div>
+<div class="row">
+<button id="pv">← Prev</button>
+<button class="p" id="fl">Flip</button>
+<button id="nx">Next →</button>
+<button id="sh">Shuffle</button>
+<button id="sw">Swap sides</button>
+</div>
+<script>
+var G={
+"I":"I want|من می‌خواهم;I need|من نیاز دارم;I have|من دارم;I love|من دوست دارم;I know|من می‌دانم;I think|من فکر می‌کنم;I understand|من می‌فهمم;I remember|من به یاد می‌آورم;I forget|من فراموش می‌کنم;I can|من می‌توانم;I can't|من نمی‌توانم;I have to|من باید;I like|من دوست دارم",
+"I'm":"I'm going to|من می‌روم / قصد دارم;I'm coming|من دارم می‌آیم;I'm looking for|من دنبالِ ... می‌گردم;I'm trying|من دارم تلاش می‌کنم;I'm learning|من دارم یاد می‌گیرم;I'm working|من دارم کار می‌کنم;I'm waiting|من دارم منتظر می‌مانم;I'm eating|من دارم غذا می‌خورم;I'm drinking|من دارم می‌نوشم;I'm watching|من دارم تماشا می‌کنم;I'm listening|من دارم گوش می‌دهم;I'm speaking|من دارم صحبت می‌کنم;I'm studying|من دارم درس می‌خوانم;I'm sleeping|من دارم می‌خوابم;I'm driving|من دارم رانندگی می‌کنم;I'm cooking|من دارم آشپزی می‌کنم;I'm thinking|من دارم فکر می‌کنم;I'm feeling|من دارم احساس می‌کنم;I'm staying|من دارم می‌مانم;I'm leaving|من دارم می‌روم;I'm coming back|من دارم برمی‌گردم;I'm going back|من دارم برمی‌گردم;I'm getting ready|من دارم آماده می‌شوم;I'm getting tired|من دارم خسته می‌شوم;I'm getting hungry|دارم گرسنه می‌شوم;I'm getting better|دارم بهتر می‌شوم;I'm having fun|دارم خوش می‌گذرانم;I'm talking|من دارم صحبت می‌کنم;I'm checking|من دارم بررسی می‌کنم;I'm working on it|دارم روی آن کار می‌کنم",
+"You":"You want|تو می‌خواهی;You need|تو نیاز داری;You have|تو داری;You love|تو دوست داری;You know|تو می‌دانی;You think|تو فکر می‌کنی;You understand|تو می‌فهمی;You remember|تو به یاد می‌آوری;You forget|تو فراموش می‌کنی;You can|تو می‌توانی;You can't|تو نمی‌توانی;You have to|تو باید;You like|تو دوست داری",
+"You are":"You are going to|تو می‌روی / قصد داری;You are coming|تو داری می‌آیی;You are looking for|تو دنبالِ ... می‌گردی;You are trying|تو داری تلاش می‌کنی;You are learning|تو داری یاد می‌گیری;You are working|تو داری کار می‌کنی;You are waiting|تو داری منتظر می‌مانی;You are eating|تو داری غذا می‌خوری;You are drinking|تو داری می‌نوشی;You are watching|تو داری تماشا می‌کنی;You are listening|تو داری گوش می‌دهی;You are speaking|تو داری صحبت می‌کنی;You are studying|تو داری درس می‌خوانی;You are sleeping|تو داری می‌خوابی;You are driving|تو داری رانندگی می‌کنی;You are cooking|تو داری آشپزی می‌کنی;You are thinking|تو داری فکر می‌کنی;You are feeling|تو داری احساس می‌کنی;You are staying|تو داری می‌مانی;You are leaving|تو داری می‌روی;You are coming back|تو داری برمی‌گردی;You are going back|تو داری برمی‌گردی;You are getting ready|تو داری آماده می‌شوی;You are getting tired|تو داری خسته می‌شوی;You are getting hungry|تو داری گرسنه می‌شوی;You are getting better|تو داری بهتر می‌شوی;You are having fun|تو داری خوش می‌گذرانی;You are talking|تو داری صحبت می‌کنی;You are checking|تو داری بررسی می‌کنی;You are working on it|تو داری روی آن کار می‌کنی"};
+var names=["All","I","I'm","You","You are"],all=[];
+names.slice(1).forEach(function(n){G[n].split(";").forEach(function(s){var p=s.split("|");all.push({g:n,en:p[0],fa:p[1]})})});
+var cur="All",deck=all.slice(),i=0,swap=false;
+var $=function(id){return document.getElementById(id)};
+function setText(el,txt,isFa){
+  el.textContent=txt;
+  el.className=isFa?'fa':'';
+  el.dir=isFa?'rtl':'ltr';
+}
+function build(){
+  deck=all.filter(function(c){return cur==="All"||c.g===cur});i=0;
+  $('tb').innerHTML="";
+  names.forEach(function(n){
+    var b=document.createElement('button');
+    b.textContent=n+" ("+(n==="All"?all.length:G[n].split(";").length)+")";
+    if(n===cur)b.className="on";
+    b.onclick=function(){cur=n;build()};
+    $('tb').appendChild(b);
+  });
+  show();
+}
+function show(){
+  var c=deck[i];
+  $('cd').classList.remove('flip');
+  setTimeout(function(){
+    setText($('fa'),swap?c.fa:c.en,swap);
+    setText($('fb'),swap?c.en:c.fa,!swap);
+    $('t1').textContent=swap?'فارسی':'English';
+    $('t2').textContent=swap?'English':'فارسی';
+  },150);
+  $('ct').textContent='Card '+(i+1)+' of '+deck.length;
+  $('pb').style.width=((i+1)/deck.length*100)+'%';
+}
+function go(d){i=(i+d+deck.length)%deck.length;show()}
+function flip(){$('cd').classList.toggle('flip')}
+$('sc').onclick=flip;$('fl').onclick=flip;
+$('nx').onclick=function(){go(1)};$('pv').onclick=function(){go(-1)};
+$('sh').onclick=function(){
+  for(var k=deck.length-1;k>0;k--){var j=Math.floor(Math.random()*(k+1));var t=deck[k];deck[k]=deck[j];deck[j]=t}
+  i=0;show();
+};
+$('sw').onclick=function(){swap=!swap;show()};
+document.onkeydown=function(e){
+  if(e.key==='ArrowRight')go(1);
+  else if(e.key==='ArrowLeft')go(-1);
+  else if(e.key===' '||e.key==='ArrowUp'||e.key==='ArrowDown'){e.preventDefault();flip()}
+};
+build();
+</script>
+</body>
+</html>
